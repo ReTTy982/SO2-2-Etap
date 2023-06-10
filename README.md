@@ -9,5 +9,5 @@ Założenia projektu
 - Każdy filozof ma po swojej lewej stronie widelec i łyzke
 - Serwowane dania to makaron i lody
 - Każde danie w zaleznosci od typu ma swoja date waznosci
-- Łyzka - lody, widelec- makaron
+- Pałeczki- Sushi, widelec- makaron
 
