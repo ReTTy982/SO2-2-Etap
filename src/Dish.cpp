@@ -1,15 +1,20 @@
 #include "../header/Dish.hpp"
 
+void Dish::setFreshEnum()
+{
 
-    void Dish::setFreshEnum(){
-
-        if(expirationValue > staleMax){
-            freshType = FreshType::FRESH;
-        } else if(expirationValue > outdatedMax){
-            freshType = FreshType::STALE;
-        }else{
-            freshType = FreshType::OUTDATED;
-        }
+    if (expirationValue > staleMax)
+    {
+        freshType = FreshType::FRESH;
+    }
+    else if (expirationValue > outdatedMax)
+    {
+        freshType = FreshType::STALE;
+    }
+    else
+    {
+        freshType = FreshType::OUTDATED;
+    }
 
     }
 
@@ -42,6 +47,7 @@
         setFreshEnum();
     }
 
+    Dish::Dish(){}
 
     
 
@@ -52,7 +58,7 @@
     }
 
 
-    int Dish::getExpirationValue(){
+    int Dish::getExpirationValue() const{
         return expirationValue;
     }
 

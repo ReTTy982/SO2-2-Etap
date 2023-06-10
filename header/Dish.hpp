@@ -2,6 +2,7 @@
 #define DISH_HPP
 #include <string>
 #include <stdexcept>
+#include <map>
 
 class Dish{
 
@@ -32,7 +33,8 @@ public:
     void setDishName(std::string dishName);
     Dish(int expirationValue, int expirationSubtract, std::string dishName);
     Dish(std::string dishName);
-    int getExpirationValue();
+    Dish();
+    int getExpirationValue() const;
     int getExpirationSubtract();
     std::string getDishName();
     void expirationValueGoesDownInCycle();

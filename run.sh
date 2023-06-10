@@ -1,0 +1,1 @@
+g++ -Iheaders -o start.exe src/* -o start.exe start.cpp && ./start.exe

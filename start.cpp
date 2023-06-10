@@ -4,6 +4,7 @@
 #include <ncurses.h>
 #include "header/Dish.hpp"
 #include "header/Philosopher.hpp"
+#include "header/Kitchen.hpp"
 
 
 using namespace std;
@@ -11,7 +12,11 @@ int PHIL_LEN = 10;
 
 
 int main()
-{   int i = 0;
+{   
+    
+
+    
+    int i = 0;
     mutex tab[PHIL_LEN];
     mutex print_guard;
     thread philosophers[2];

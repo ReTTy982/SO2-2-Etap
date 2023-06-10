@@ -1,16 +1,53 @@
 #include "../header/Kitchen.hpp"
 
-class Kitchen
-{
-private:
-    /* data */
-public:
-   void cookDish(Dish dish);
-   void giveDish(std::string dishName);
 
 
 
-};
+void Kitchen::cookDish(Dish dish){
 
+    if(dish.getDishName() == "spaggetti"){
+        spaggettiVector.push_back(dish);
+    } else if( dish.getDishName() == "sushi"){
+        sushiVector.push_back(dish);
+    }
+
+}
+
+Dish Kitchen::giveDish(std::string dishName){
+
+    Dish currentDish;
+
+    if(dishName == "spaggetti"){
+
+        if(spaggettiVector.size()>0){
+            currentDish = spaggettiVector.front();
+            spaggettiVector.erase(spaggettiVector.begin());
+        }
+
+    } else if(dishName == "sushi"){
+
+        if(sushiVector.size()>0){
+            currentDish = sushiVector.front();
+            sushiVector.erase(sushiVector.begin());
+        }
+
+    }
+
+     return currentDish;
+
+}
+
+void Kitchen::displayDishes(){
+
+    for(auto dish : sushiVector){
+        std::cout<<dish.getDishName()<<" "<<dish.getExpirationValue()<<"\n";
+    }
+
+    for(auto dish : spaggettiVector){
+        std::cout<<dish.getDishName()<<" "<<dish.getExpirationValue()<<"\n";
+    }
+
+
+}
 
 
