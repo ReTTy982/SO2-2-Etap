@@ -35,14 +35,16 @@ void Dish::setFreshEnum()
         this->dishName = dishName;
     }
 
-    Dish::Dish(int expirationValue, int expirationSubtract, std::string dishName){
+    Dish::Dish(int id, int expirationValue, int expirationSubtract, std::string dishName){
         
+        this->id= id;
         setExpirationSubtract(expirationSubtract);
         setDishName(dishName);
         setExpirationValue(expirationValue);
     }
 
-    Dish::Dish(std::string dishName){
+    Dish::Dish(int id, std::string dishName){
+        this ->id = id;
         this->setDishName(dishName);
         setFreshEnum();
     }

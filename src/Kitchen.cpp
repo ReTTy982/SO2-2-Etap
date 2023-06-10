@@ -3,32 +3,40 @@
 
 
 
-void Kitchen::cookDish(Dish dish){
+void Kitchen::cookDish(int groupId, int id){
 
-    if(dish.getDishName() == "spaggetti"){
-        spaggettiVector.push_back(dish);
-    } else if( dish.getDishName() == "sushi"){
-        sushiVector.push_back(dish);
+    if(groupId ==1){
+        std::cout << "TESTUJE" << std::endl;
+        Dish dish = Dish(id, "spagetti");
+        this->spaggettiVector.push_back(dish);
+        std::cout << "PIERWSZY SIZE: " << spaggettiVector.size() << std::endl;
+    } else if(id ==2){
+        Dish dish = Dish(id, "sushi");
+        this->sushiVector.push_back(dish);
     }
 
 }
 
-Dish Kitchen::giveDish(std::string dishName){
+Dish Kitchen::giveDish(int id){ //0- nie ma, 1-spaggetti, 2-sushi
 
     Dish currentDish;
 
-    if(dishName == "spaggetti"){
-
+    if(id==1){
+        std::cout << "TEST SIZE: " << spaggettiVector.size() << std::endl;
         if(spaggettiVector.size()>0){
-            currentDish = spaggettiVector.front();
+            currentDish = spaggettiVector[0];
+            std::cout << "TEST: " << currentDish.getDishName() << std::endl;
             spaggettiVector.erase(spaggettiVector.begin());
             spaggettiGivenCounter++;
         }
+        else{
+            return Dish(0, "nie ma");
+        }
 
-    } else if(dishName == "sushi"){
+    } else if(id ==2){
 
         if(sushiVector.size()>0){
-            currentDish = sushiVector.front();
+            currentDish = sushiVector[0];
             sushiVector.erase(sushiVector.begin());
             sushiGivenCounter++;
         }
@@ -54,17 +62,20 @@ void Kitchen::displayDishes(){
 
 int Kitchen::getSpaggettiGivenCounter(){
     return spaggettiGivenCounter;
+    
+    
 }
 
 
-int Kitchen::getSpaggettiGivenCounter(){
+int Kitchen::getSushiGivenCounter(){
     return sushiGivenCounter;
+
 }
 
-void Kitchen::runKitchen(){
+std::thread Kitchen::runKitchen(){
 
-    std::thread threadObj(&Kitchen::startCooking, this);
-    threadObj.detach();
+    return std::thread(&Kitchen::startCooking, this);
+    //threadObj.detach();
     
 }
 
@@ -74,12 +85,14 @@ void Kitchen::startCooking(){
 
     while(true){
 
-        random++;
-
+        std::this_thread::sleep_for(std::chrono::seconds(2));
         if(random%2==0){
-            cookDish(Dish("spagetti"));
+            
+            cookDish(1, random);
         } else{
-            cookDish(Dish("sushi"));
+            Dish dish = Dish(random, "sushi");
+            cookDish(2, random);
         }
+        random++;
     }
 }

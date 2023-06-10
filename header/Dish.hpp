@@ -24,6 +24,7 @@ int expirationValue = 100; //100 świeże, 50 jako takie, 20- filozof sie zatruj
     int freshMax =100;
     int staleMax = 50;
     int outdatedMax = 20;
+    int id;
 
 void setFreshEnum();
 public:
@@ -31,12 +32,13 @@ public:
     void setExpirationValue(int expirationValue);
     void setExpirationSubtract(int expirationSubtract);
     void setDishName(std::string dishName);
-    Dish(int expirationValue, int expirationSubtract, std::string dishName);
-    Dish(std::string dishName);
+    Dish(int id, int expirationValue, int expirationSubtract, std::string dishName);
+    Dish(int id, std::string dishName);
     Dish();
     int getExpirationValue() const;
     int getExpirationSubtract();
     std::string getDishName();
     void expirationValueGoesDownInCycle();
+    
 };
 #endif

@@ -21,14 +21,14 @@ private:
 public:
     
 
-   void cookDish(Dish dish);
-   Dish giveDish(std::string dishName);
+   void cookDish(int groupId, int id);
+   Dish giveDish(int id);
    void displayDishes();
     int getSushiGivenCounter();
     int getSpaggettiGivenCounter();
-    void runKitchen();
+    std::thread runKitchen();
     void startCooking();
-
+    void setVectors(std::vector<Dish> &spagettiVector, std::vector<Dish> &sushiVector);
 };
 
 

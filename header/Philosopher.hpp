@@ -3,6 +3,8 @@
 #include <mutex>
 #include <iostream>
 #include <thread>
+#include "Dish.hpp"
+#include "Kitchen.hpp"
 using namespace std;
 
 
@@ -15,10 +17,14 @@ private:
     int leftStick;
     int rightStick;
 
+    int* zmienna;
+    mutex* mtx;
+
     mutex* sticks;
     mutex* forks;
     mutex* print_guard;
 
+    Kitchen kitchen;
     bool mealType =0; //0- spagetti, 1- sushi
 
     /*
@@ -31,7 +37,7 @@ private:
 
     public:
         Philosopher(int id,int left, int right, mutex forks[],mutex *print_guard);
-        Philosopher(int id, int leftFork, int rightFork, int leftStick, int rightStick, mutex * sticks, mutex * forks, mutex * print_guard);
+        Philosopher(int id, int leftFork, int rightFork, int leftStick, int rightStick, mutex * sticks, mutex * forks, mutex * print_guard, Kitchen kitchen, int * zmienna, mutex *mtx);
 void setId(int id);
         void setStatus(int status);
         int getId();
@@ -40,6 +46,10 @@ void setId(int id);
         void decide();
         void eat(int firstFork);
         void think(int time);
+        void runPhilosopher();
+        std::thread initPhilosopher();
+        void addZmienna();
+        
 
 
 };
