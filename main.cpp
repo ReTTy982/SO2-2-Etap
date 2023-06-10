@@ -16,7 +16,11 @@ WINDOW* win_right[PHIL_LEN];
 void philosopher(int id) {
 
  
-
+// dishes = [ 1, 2, 3, 4]
+// f1 - 1 dishes[0].lock()
+// dishes.pop(0)
+// f2 - dishes[0].lock()
+//
 
     int left_fork = id;
     int right_fork = (id + 1) % PHIL_LEN;
