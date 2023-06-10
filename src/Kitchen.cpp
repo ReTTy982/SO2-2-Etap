@@ -61,3 +61,25 @@ int Kitchen::getSpaggettiGivenCounter(){
     return sushiGivenCounter;
 }
 
+void Kitchen::runKitchen(){
+
+    std::thread threadObj(&Kitchen::startCooking, this);
+    threadObj.detach();
+    
+}
+
+void Kitchen::startCooking(){
+
+    int random = 0;
+
+    while(true){
+
+        random++;
+
+        if(random%2==0){
+            cookDish(Dish("spagetti"));
+        } else{
+            cookDish(Dish("sushi"));
+        }
+    }
+}

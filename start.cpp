@@ -26,6 +26,8 @@ int main()
     Philosopher fil2 = Philosopher(i,i,(i + 1) % PHIL_LEN,tab, &print_guard);
 
 
+
+
     philosophers[0] = thread(&Philosopher::testMutex, &fil1);
     philosophers[1] = thread(&Philosopher::testMutex, &fil2);
     //philosophers[0] = thread(Philosopher::testMutex(),fil1,0);

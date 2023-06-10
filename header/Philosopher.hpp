@@ -10,10 +10,16 @@ class Philosopher{
 private:
     int id;
     int status;
-    int left;
-    int right;
+    int leftFork;
+    int rightFork;
+    int leftStick;
+    int rightStick;
+
+    mutex* sticks;
     mutex* forks;
     mutex* print_guard;
+
+    bool mealType =0; //0- spagetti, 1- sushi
 
     /*
     0 - Thinking
@@ -25,7 +31,8 @@ private:
 
     public:
         Philosopher(int id,int left, int right, mutex forks[],mutex *print_guard);
-        void setId(int id);
+        Philosopher(int id, int leftFork, int rightFork, int leftStick, int rightStick, mutex * sticks, mutex * forks, mutex * print_guard);
+void setId(int id);
         void setStatus(int status);
         int getId();
         int getStatus();

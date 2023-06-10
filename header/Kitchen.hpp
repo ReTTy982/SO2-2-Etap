@@ -5,7 +5,7 @@
 #include <vector>
 #include <iostream>
 #include "../header/Dish.hpp"
-
+#include <thread>
 
 
 class Kitchen
@@ -26,7 +26,8 @@ public:
    void displayDishes();
     int getSushiGivenCounter();
     int getSpaggettiGivenCounter();
-
+    void runKitchen();
+    void startCooking();
 
 };
 

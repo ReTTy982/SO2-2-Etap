@@ -2,14 +2,18 @@
 #include "../header/Philosopher.hpp"
 
 
-
 using namespace std;
 
-    Philosopher::Philosopher(int id, int left, int right, mutex *forks, mutex *print_guard){
+    Philosopher::Philosopher(int id, int leftFork, int rightFork, int leftStick, int rightStick, mutex *sticks, mutex *forks, mutex *print_guard){
         this -> id = id;
         this -> status = 0;
-        this -> left = left;
-        this -> right = right;
+        this -> leftFork = leftFork;
+        this -> rightFork = rightFork;
+
+        this -> leftStick = leftStick;
+        this -> rightStick = rightStick;
+
+        this -> sticks = sticks;
         this -> forks = forks;
         this -> print_guard = print_guard;
  
@@ -61,13 +65,17 @@ using namespace std;
     }
 
     void Philosopher::eat(int firstFork){
+        
+        
+
+
         if (firstFork == 0){
-            forks[left].lock();
-            forks[right].lock();
+            forks[leftFork].lock();
+            forks[rightFork].lock();
         }
         else{
-            forks[right].lock();
-            forks[left].lock();
+            forks[rightFork].lock();
+            forks[leftFork].lock();
         }
     }
 
