@@ -15,6 +15,9 @@ WINDOW* win_right[PHIL_LEN];
 
 void philosopher(int id) {
 
+ 
+
+
     int left_fork = id;
     int right_fork = (id + 1) % PHIL_LEN;
     while(true){
@@ -131,6 +134,19 @@ init_pair(3, COLOR_WHITE, COLOR_RED);
 init_pair(4,COLOR_WHITE,COLOR_MAGENTA);
 thread philosophers[PHIL_LEN];
 
+// Statystyki
+int starty = LINES - 5 -1;
+int startx = COLS - 10 - 1;
+WINDOW* legend = newwin(5,10,starty,startx);
+werase(legend);
+box(legend,0,0);
+
+mvwprintw(legend,1,1,"test");
+mvwprintw(legend,2,2,"test2");
+wrefresh(legend);
+
+
+
 for (int i = 0; i < PHIL_LEN; i++) {
     win[i] = newwin(3, 30, i * 3, 0);
     win_left[i] = newwin(3,15,i*3,0);
@@ -147,6 +163,9 @@ for (int i = 0; i < PHIL_LEN; i++) {
 for (int i = 0; i < PHIL_LEN; i++) {
     philosophers[i].join();
 }
+
+
+
 
 
 int wait;
