@@ -22,6 +22,7 @@ Dish Kitchen::giveDish(std::string dishName){
         if(spaggettiVector.size()>0){
             currentDish = spaggettiVector.front();
             spaggettiVector.erase(spaggettiVector.begin());
+            spaggettiGivenCounter++;
         }
 
     } else if(dishName == "sushi"){
@@ -29,6 +30,7 @@ Dish Kitchen::giveDish(std::string dishName){
         if(sushiVector.size()>0){
             currentDish = sushiVector.front();
             sushiVector.erase(sushiVector.begin());
+            sushiGivenCounter++;
         }
 
     }
@@ -50,4 +52,12 @@ void Kitchen::displayDishes(){
 
 }
 
+int Kitchen::getSpaggettiGivenCounter(){
+    return spaggettiGivenCounter;
+}
+
+
+int Kitchen::getSpaggettiGivenCounter(){
+    return sushiGivenCounter;
+}
 
