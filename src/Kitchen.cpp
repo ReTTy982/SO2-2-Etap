@@ -210,6 +210,13 @@ bool Kitchen::compareDishes(){
         return true;
     }
    
+    if((*spaggettiVector).size() + 5 < (*sushiVector).size()){
+        return false;
+    } else if((*spaggettiVector).size() + 5 > (*sushiVector).size()){
+        return true;
+    }
+
+
     //return false;
 
   if(spaggettiVal>sushiVal){
