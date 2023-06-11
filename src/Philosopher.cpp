@@ -67,33 +67,129 @@
 
     void Philosopher::eat(int firstFork){
         
-        
+        {
+            lock_guard<mutex> lock(*print_guard);
+            werase(win);
+            box(win, 0, 0);
+            mvwprintw(win, 1, 1, "Hungry");
+            wbkgd(win, COLOR_PAIR(1));
+            wrefresh(win);
+        }
 
 
         if (firstFork == 0){
             forks[leftFork].lock();
+            {
+                lock_guard<mutex> lock(*print_guard);
+                werase(win);
+                box(win_left,0,0);
+                wbkgd(win_left,COLOR_PAIR(4));
+                mvwprintw(win_left, 1, 1, "Left");
+                box(win_right,0,0);
+                wbkgd(win_right, COLOR_PAIR(1));
+                mvwprintw(win_right, 1, 1, " ");
+                wrefresh(win_right);
+                wrefresh(win_left);
+            }
+            std::this_thread::sleep_for(chrono::seconds(2));
             forks[rightFork].lock();
+            {
+                lock_guard<mutex> lock(*print_guard);
+                werase(win);
+                box(win_left,0,0);
+                wbkgd(win_left,COLOR_PAIR(4));
+                mvwprintw(win_left, 1, 1, "Left");
+                box(win_right,0,0);
+                wbkgd(win_right, COLOR_PAIR(4));
+                mvwprintw(win_right, 1, 1, "Right");
+                wrefresh(win_right);
+                wrefresh(win_left);
+            }
 
         }
         else{
             forks[rightFork].lock();
+            {
+                lock_guard<mutex> lock(*print_guard);
+                werase(win);
+                box(win_left,0,0);
+                wbkgd(win_left,COLOR_PAIR(1));
+                mvwprintw(win_left, 1, 1, " ");
+                box(win_right,0,0);
+                wbkgd(win_right, COLOR_PAIR(4));
+                mvwprintw(win_right, 1, 1, "Right");
+                wrefresh(win_right);
+                wrefresh(win_left);
+            }
+            std::this_thread::sleep_for(chrono::seconds(2));
             forks[leftFork].lock();
+            {
+                lock_guard<mutex> lock(*print_guard);
+                werase(win);
+                box(win_left,0,0);
+                wbkgd(win_left,COLOR_PAIR(4));
+                mvwprintw(win_left, 1, 1, "Left");
+                box(win_right,0,0);
+                wbkgd(win_right, COLOR_PAIR(4));
+                mvwprintw(win_right, 1, 1, "Right");
+                wrefresh(win_right);
+                wrefresh(win_left);
+
+            }
             
         }
-            Dish dish = kitchen.giveDish(1);
-            while(dish.getDishName() == "nie ma"){
-                this_thread::sleep_for(chrono::seconds(1));
-                dish = kitchen.giveDish(1);
-            }
-            std::cout << "ID " << id << "je " << dish.getDishName() << std::endl;
             this_thread::sleep_for(chrono::seconds(2));
+            Dish dish = kitchen.giveDish(1);
+            while(dish.getDishName() == "nie ma"){   
+                { 
+                lock_guard<mutex> lock(*print_guard);
+                werase(win_left);
+                werase(win_right);
+                werase(win);
+                box(win, 0, 0);
+                mvwprintw(win, 1, 1, "Waiting for food");
+                wbkgd(win, COLOR_PAIR(5));
+                wrefresh(win);     
+                }
+                dish = kitchen.giveDish(1);
+
+                this_thread::sleep_for(chrono::seconds(1));
+                
+            }
+            {
+                lock_guard<mutex> lock(*print_guard);
+                werase(win_left);
+                werase(win_right);
+                werase(win);
+                box(win, 0, 0);
+                mvwprintw(win, 1, 1, "Eating");
+                wbkgd(win, COLOR_PAIR(3));
+                wrefresh(win);
+            }
+            
+            this_thread::sleep_for(chrono::seconds(2)); 
             forks[leftFork].unlock();
             forks[rightFork].unlock();
+            
+            
+
+
 
     }
 
     void Philosopher::think(int time){
-        std::cout << "ID: " << id << " mysli" << std::endl;
+        {
+            lock_guard<mutex> lock(*print_guard);
+            werase(win);
+            box(win,0,0);
+            //init_pair(2, COLOR_WHITE, COLOR_GREEN);
+            wbkgd(win,COLOR_PAIR(2));
+            mvwprintw(win,1,1,"MYSLI %d", id );
+            wrefresh(win);
+            testIterator++;
+            
+
+        }
         this_thread::sleep_for(chrono::seconds(time));
     }
 
@@ -106,7 +202,7 @@
 
     void Philosopher::runPhilosopher(){
         while(true){
-            think(2);
+            think(3);
             decide();
 
         }
@@ -131,5 +227,10 @@
     }
 
 
+    void Philosopher::setWindowDisplay(WINDOW* win,WINDOW* win_left,WINDOW* win_right){
 
+        this-> win = win;
+        this-> win_left = win_left;
+        this-> win_right = win_right;
+    }
 

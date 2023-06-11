@@ -5,7 +5,7 @@
 
 using namespace std;
 
-const int PHIL_LEN = 8;
+const int PHIL_LEN = 4;
 mutex forks[PHIL_LEN];
 mutex print_guard;
 WINDOW* win[PHIL_LEN];

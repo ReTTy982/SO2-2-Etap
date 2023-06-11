@@ -5,6 +5,7 @@
 #include <thread>
 #include "Dish.hpp"
 #include "Kitchen.hpp"
+#include <ncurses.h>
 using namespace std;
 
 
@@ -26,6 +27,12 @@ private:
 
     Kitchen kitchen;
     bool mealType =0; //0- spagetti, 1- sushi
+
+    int testIterator = 0;
+
+    WINDOW* win;
+    WINDOW* win_left;
+    WINDOW* win_right;
 
     /*
     0 - Thinking
@@ -49,6 +56,7 @@ void setId(int id);
         void runPhilosopher();
         std::thread initPhilosopher();
         void addZmienna();
+        void setWindowDisplay(WINDOW* win,WINDOW* win_left,WINDOW* win_right);
         
 
 

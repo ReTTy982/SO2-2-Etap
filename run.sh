@@ -1,1 +1,1 @@
-g++ -Iheaders -o start.exe src/* -o start.exe start.cpp && ./start.exe
+g++ -Iheaders  -o start.exe src/* -o start.exe start.cpp -lncurses && ./start.exe 
