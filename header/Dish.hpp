@@ -37,6 +37,7 @@ public:
     Dish();
     int getExpirationValue() const;
     int getExpirationSubtract();
+    int getDishId();
     std::string getDishName();
     void expirationValueGoesDownInCycle();
     

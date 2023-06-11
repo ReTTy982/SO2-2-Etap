@@ -6,19 +6,37 @@
 void Kitchen::cookDish(int groupId, int id){
 
     if(groupId ==1){
-        Dish dish = Dish(id, "spagetti");
+        Dish dish = Dish(id, "spaggetti");
         (*spaggettiVector).push_back(dish);
         {
-                std::lock_guard<std::mutex> lock(*print_guard);
-                werase(kitchenWindow);
-                box(kitchenWindow, 0, 0);
-                mvwprintw(kitchenWindow, 1, 1, "Spagetti: %ld", (*spaggettiVector).size());
-                //wbkgd(kitchenWindow, COLOR_PAIR(1));
-                wrefresh(kitchenWindow);
+                
+
+                printBox();
+                // std::lock_guard<std::mutex> lock(*print_guard);
+                // werase(kitchenWindow);
+
+                // box(kitchenWindow, 0, 0);
+                // mvwprintw(kitchenWindow, 1, 1, "Spaggetti: %ld", (*spaggettiVector).size());
+                // mvwprintw(kitchenWindow, 2, 1, "Sushi: %ld", (*sushiVector).size());
+                // //wbkgd(kitchenWindow, COLOR_PAIR(1));
+                // wrefresh(kitchenWindow);
         }
-    } else if(id ==2){
+    } else if(groupId ==2){
         Dish dish = Dish(id, "sushi");
         (*sushiVector).push_back(dish);
+
+        {
+                
+                
+                printBox();
+                // std::lock_guard<std::mutex> lock(*print_guard);
+                // werase(kitchenWindow);
+                // box(kitchenWindow, 0, 0);
+                // mvwprintw(kitchenWindow, 1, 1, "Spaggetti: %ld", (*spaggettiVector).size());
+                // mvwprintw(kitchenWindow, 2, 1, "Sushi: %ld", (*sushiVector).size());
+                // //wbkgd(kitchenWindow, COLOR_PAIR(1));
+                // wrefresh(kitchenWindow);
+        }
     }
 
 }
@@ -45,17 +63,24 @@ Dish Kitchen::giveDish(int id){ //0- nie ma, 1-spaggetti, 2-sushi
             (*sushiVector).erase((*sushiVector).begin());
             sushiGivenCounter++;
         }
+        else{
+            return Dish(1, "nie ma");
+        }
 
     }
 
     //tutaj
     {
-                std::lock_guard<std::mutex> lock(*print_guard);
-                werase(kitchenWindow);
-                box(kitchenWindow, 0, 0);
-                mvwprintw(kitchenWindow, 1, 1, "Spagetti: %ld", (*spaggettiVector).size());
-                //wbkgd(kitchenWindow, COLOR_PAIR(1));
-                wrefresh(kitchenWindow);
+                
+                printBox();
+                // std::lock_guard<std::mutex> lock(*print_guard);
+                // werase(kitchenWindow);
+                
+                // box(kitchenWindow, 0, 0);
+                // mvwprintw(kitchenWindow, 1, 1, "Spaggetti: %ld", (*spaggettiVector).size());
+                // mvwprintw(kitchenWindow, 2, 1, "Sushi: %ld", (*sushiVector).size());
+                // //wbkgd(kitchenWindow, COLOR_PAIR(1));
+                // wrefresh(kitchenWindow);
 
     }
 
@@ -68,11 +93,12 @@ Dish Kitchen::giveDish(int id){ //0- nie ma, 1-spaggetti, 2-sushi
 void Kitchen::displayDishes(){
 
     for(auto dish : (*sushiVector)){
-        std::cout<<dish.getDishName()<<" "<<dish.getExpirationValue()<<"\n";
+        std::cout<<dish.getDishId()<<" "<<dish.getExpirationValue()<<"\n";
+        //dish.
     }
 
     for(auto dish : (*spaggettiVector)){
-        std::cout<<dish.getDishName()<<" "<<dish.getExpirationValue()<<"\n";
+        std::cout<<dish.getDishId()<<" "<<dish.getExpirationValue()<<"\n";
     }
 
 
@@ -103,7 +129,7 @@ void Kitchen::startCooking(){
 
     while(true){
 
-        std::this_thread::sleep_for(std::chrono::seconds(1));
+        std::this_thread::sleep_for(std::chrono::milliseconds(300));
         if(random%2==0){
             
             cookDish(1, random);
@@ -112,6 +138,7 @@ void Kitchen::startCooking(){
             cookDish(2, random);
         }
         random++;
+        expirationOnVectors();
     }
 }
 
@@ -125,4 +152,42 @@ void Kitchen::setVectors(std::mutex *kitchenMutex, std::vector<Dish> &spagettiVe
 void Kitchen::setWindow(WINDOW *kitchenWindow, std::mutex* print_guard){
     this->kitchenWindow = kitchenWindow;
     this-> print_guard = print_guard;
+}
+
+void Kitchen::expirationOnVectors(){
+
+    for(auto& dish : *spaggettiVector){
+        dish.expirationValueGoesDownInCycle();
+    }
+
+        for(auto& dish : *sushiVector){
+        dish.expirationValueGoesDownInCycle();
+    }
+}
+
+void Kitchen::printBox(){
+        {
+                std::lock_guard<std::mutex> lock(*print_guard);
+                werase(kitchenWindow);
+                box(kitchenWindow, 0, 0);
+                int i = 0;
+                for(auto& dish : *spaggettiVector){
+                    int dishId = dish.getDishId(); 
+                    int dishExpiration = dish.getExpirationValue();
+                     
+                    mvwprintw(kitchenWindow,i+1,1, "%d ; %d", dishId,dishExpiration);
+                    i++;
+                }
+                i =0;
+                for(auto& dish : *sushiVector){
+                    int dishId = dish.getDishId(); 
+                    int dishExpiration = dish.getExpirationValue();
+                     
+                    mvwprintw(kitchenWindow,i+1,30, "%d ; %d", dishId,dishExpiration);
+                    i++;
+                }
+                
+                wrefresh(kitchenWindow);
+                
+        }
 }

@@ -30,9 +30,13 @@ private:
 
     int testIterator = 0;
 
-    WINDOW* win;
-    WINDOW* win_left;
-    WINDOW* win_right;
+    WINDOW* win_spaggetti;
+    WINDOW* win_left_spaggetti;
+    WINDOW* win_right_spaggetti;
+
+    WINDOW* win_sushi;
+    WINDOW* win_left_sushi;
+    WINDOW* win_right_sushi;
 
     /*
     0 - Thinking
@@ -49,16 +53,17 @@ void setId(int id);
         void setStatus(int status);
         int getId();
         int getStatus();
-        void testMutex();
         void decide();
         void eat(int firstFork);
+        void eatSpaggetti(int firstFork);
+        void eatSushi(int firstStick);
         void think(int time);
         void runPhilosopher();
         std::thread initPhilosopher();
         void addZmienna();
-        void setWindowDisplay(WINDOW* win,WINDOW* win_left,WINDOW* win_right);
-        
-
+        void setWindowDisplay(WINDOW* win_spaggetti,WINDOW* win_left_spaggetti,WINDOW* win_right_spaggetti,WINDOW* win_sushi,WINDOW* win_left_sushi,WINDOW* win_right_sushi);
+        void clearBoxes();
+        void printBox(int foodType, int side, int color,const char* text);
 
 };
 #endif

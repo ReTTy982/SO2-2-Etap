@@ -36,6 +36,8 @@ public:
     void startCooking();
     void setVectors(std::mutex * kitchenMutex,std::vector<Dish> &spagettiVector, std::vector<Dish> &sushiVector);
     void setWindow(WINDOW* kitchenWindow, std::mutex* print_guard);
+    void expirationOnVectors();
+    void printBox();
 };
 
 

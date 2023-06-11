@@ -82,3 +82,7 @@ void Dish::setFreshEnum()
         setFreshEnum();
 
     }
+
+    int Dish::getDishId(){
+        return id;
+    }

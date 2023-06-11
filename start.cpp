@@ -8,7 +8,7 @@
 
 
 using namespace std;
-int PHIL_LEN = 10;
+int PHIL_LEN = 20;
 
 
 int main()
@@ -23,10 +23,13 @@ int main()
     init_pair(4,COLOR_WHITE,COLOR_MAGENTA);
     init_pair(5, COLOR_WHITE, COLOR_YELLOW);
 
-    int starty = LINES -5 - 1;
-    int startx = COLS - 10 -1;
+    int HEIGHT = 40;
+    int WIDTH = 60;
 
-    WINDOW* kitchen_win = newwin(5,10,starty,startx);
+    int starty = LINES - HEIGHT - 1;
+    int startx = COLS - WIDTH -1;
+
+    WINDOW* kitchen_win = newwin(HEIGHT,WIDTH,starty,startx);
     werase(kitchen_win);
     
     int zmienna = 0;
@@ -35,9 +38,13 @@ int main()
     mutex print_guard;
     thread philosophers[PHIL_LEN];
     mutex mtx;
-    WINDOW* win[PHIL_LEN];
-    WINDOW* win_left[PHIL_LEN];
-    WINDOW* win_right[PHIL_LEN];
+    WINDOW* win_spaggetti[PHIL_LEN];
+    WINDOW* win_left_spaggetti[PHIL_LEN];
+    WINDOW* win_right_spaggetti[PHIL_LEN];
+
+    WINDOW* win_sushi[PHIL_LEN];
+    WINDOW* win_left_sushi[PHIL_LEN];
+    WINDOW* win_right_sushi[PHIL_LEN];
 
     // TO BEDZIE DOBRZE
 
@@ -104,11 +111,16 @@ int main()
         &zmienna,
         &mtx);
 
-        win[i] = newwin(3, 30, i * 3, 0);
-        win_left[i] = newwin(3,15,i*3,0);
-        win_right[i] = newwin(3,15,i*3,15);
+        win_spaggetti[i] = newwin(3, 30, i * 3, 0);
+        win_left_spaggetti[i] = newwin(3,15,i*3,0);
+        win_right_spaggetti[i] = newwin(3,15,i*3,15);
+        win_sushi[i] = newwin(3,30,i*3,30);
+        win_left_sushi[i] = newwin(3,15,i*3,30);
+        win_right_sushi[i] = newwin(3,15,i*3,45);
+
+
         //wrefresh(win[i]);
-        fil.setWindowDisplay(win[i],win_left[i],win_right[i]);
+        fil.setWindowDisplay(win_spaggetti[i],win_left_spaggetti[i],win_right_spaggetti[i],win_sushi[i],win_left_sushi[i],win_right_sushi[i]);
 
         // philosophers[i] = fil.initPhilosopher();
         philosophers[i] = thread(&Philosopher::runPhilosopher,fil);
