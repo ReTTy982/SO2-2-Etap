@@ -13,7 +13,7 @@ int PHIL_LEN = 20;
 
 int main()
 {   
-        
+    cbreak();
     initscr();
     noecho();
     start_color();

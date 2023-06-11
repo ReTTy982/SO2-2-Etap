@@ -64,6 +64,7 @@ void setId(int id);
         void setWindowDisplay(WINDOW* win_spaggetti,WINDOW* win_left_spaggetti,WINDOW* win_right_spaggetti,WINDOW* win_sushi,WINDOW* win_left_sushi,WINDOW* win_right_sushi);
         void clearBoxes();
         void printBox(int foodType, int side, int color,const char* text);
+        void refreshBox();
 
 };
 #endif

@@ -38,6 +38,7 @@ public:
     void setWindow(WINDOW* kitchenWindow, std::mutex* print_guard);
     void expirationOnVectors();
     void printBox();
+    bool compareDishes();
 };
 
 

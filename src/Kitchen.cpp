@@ -129,8 +129,8 @@ void Kitchen::startCooking(){
 
     while(true){
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(300));
-        if(random%2==0){
+        std::this_thread::sleep_for(std::chrono::milliseconds(400));
+        if(random%3==0){
             
             cookDish(1, random);
         } else{
@@ -190,4 +190,31 @@ void Kitchen::printBox(){
                 wrefresh(kitchenWindow);
                 
         }
+}
+
+bool Kitchen::compareDishes(){
+
+    int spaggettiVal;
+    int sushiVal;
+
+    if((*spaggettiVector).size()>0){
+        spaggettiVal =  (*spaggettiVector).front().getExpirationValue();
+    } else{
+        return false;
+    }
+       
+    if((*sushiVector).size()>0){
+
+        sushiVal = (*sushiVector).front().getExpirationValue();
+    } else{
+        return true;
+    }
+   
+    //return false;
+
+  if(spaggettiVal>sushiVal){
+    return false;
+  }
+  return true;
+
 }

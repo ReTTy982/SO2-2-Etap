@@ -40,14 +40,41 @@
     }
 
     void Philosopher::clearBoxes(){
+        wbkgd(win_spaggetti, COLOR_PAIR(0));
         werase(win_spaggetti);
-        werase(win_left_spaggetti);
-        werase(win_right_spaggetti);
-        werase(win_sushi);
-        werase(win_left_sushi);
-        werase(win_right_sushi);
+        wrefresh(win_spaggetti);
 
+        wbkgd(win_left_spaggetti, COLOR_PAIR(0));
+        werase(win_left_spaggetti);
+        wrefresh(win_left_spaggetti);
+
+        wbkgd(win_right_spaggetti, COLOR_PAIR(0));
+        werase(win_right_spaggetti);
+        wrefresh(win_right_spaggetti);
+
+        wbkgd(win_sushi, COLOR_PAIR(0));
+        werase(win_sushi);
+        wrefresh(win_sushi);
+
+        wbkgd(win_left_sushi, COLOR_PAIR(0));
+        werase(win_left_sushi);
+        wrefresh(win_left_sushi);
+
+        wbkgd(win_right_sushi, COLOR_PAIR(0));
+        werase(win_right_sushi);
+        wrefresh(win_right_sushi);
+        
     }
+
+    void Philosopher::refreshBox(){
+        wrefresh(win_spaggetti);
+        wrefresh(win_left_spaggetti);
+        wrefresh(win_right_spaggetti);
+        wrefresh(win_sushi);
+        wrefresh(win_left_sushi);
+        wrefresh(win_right_sushi);
+    }
+
     //foodType -0spagetti, int side 0-centar, 1-left, 2right, int color <0,5>, const char*text
     void Philosopher::printBox(int foodType, int side, int color,const char* text){
             WINDOW* window;
@@ -78,7 +105,6 @@
             box(window, 0, 0);
             mvwprintw(window, 1, 1,"%s", text);
             wbkgd(window, COLOR_PAIR(color));
-            wrefresh(window);
     }
 
     void Philosopher::eatSpaggetti(int firstFork){
@@ -91,6 +117,9 @@
 
                 printBox(0,1,4,"Left");
                 printBox(0,2,1," ");
+                // wrefresh(win_left_spaggetti);
+                // wrefresh(win_right_spaggetti);
+                refreshBox();
 
             }
             std::this_thread::sleep_for(chrono::seconds(2));
@@ -101,8 +130,11 @@
                 clearBoxes();
                 printBox(0, 1, 4 ,"Left");
                 
-                clearBoxes();
+                //clearBoxes();
                 printBox(0, 2, 4 ,"Right");
+                // wrefresh(win_left_spaggetti);
+                // wrefresh(win_right_spaggetti);
+                refreshBox();
                 
                 
             }
@@ -116,6 +148,9 @@
                 clearBoxes();
                 printBox(0,1,1," ");
                 printBox(0,2,4,"Right");
+                // wrefresh(win_left_spaggetti);
+                // wrefresh(win_right_spaggetti);
+                refreshBox();
             }
             std::this_thread::sleep_for(chrono::seconds(2));
             forks[leftFork].lock();
@@ -124,6 +159,9 @@
                 clearBoxes();
                 printBox(0,1,4,"Left");
                 printBox(0,2,4,"Right");
+                // wrefresh(win_left_spaggetti);
+                // wrefresh(win_right_spaggetti);
+                refreshBox();
 
 
             }
@@ -136,7 +174,9 @@
                 lock_guard<mutex> lock(*print_guard);
 
                 clearBoxes();
-                printBox(0,0,5,"Waiting for food");    
+                printBox(0,0,5,"Waiting for food"); 
+                // wrefresh(win_spaggetti);  
+                refreshBox(); 
                 }
                 dish = kitchen.giveDish(1);
 
@@ -148,6 +188,8 @@
 
                 clearBoxes();
                 printBox(0,0,3,"Eating");
+                // wrefresh(win_spaggetti);
+                refreshBox();
             }
             
             this_thread::sleep_for(chrono::seconds(2)); 
@@ -168,6 +210,9 @@
 
                 printBox(1,1,4,"Left");
                 printBox(1,2,1," ");
+                // wrefresh(win_left_sushi);
+                // wrefresh(win_right_sushi);
+                refreshBox();
 
             }
             std::this_thread::sleep_for(chrono::seconds(2));
@@ -177,9 +222,10 @@
 
                 clearBoxes();
                 printBox(1, 1, 4 ,"Left");
-                
-                clearBoxes();
                 printBox(1, 2, 4 ,"Right");
+                // wrefresh(win_left_sushi);
+                // wrefresh(win_right_sushi);
+                refreshBox();
                 
                 
             }
@@ -190,9 +236,12 @@
             {
                 lock_guard<mutex> lock(*print_guard);
 
-                clearBoxes();
+                //clearBoxes();
                 printBox(1,1,1," ");
                 printBox(1,2,4,"Right");
+                // wrefresh(win_left_sushi);
+                // wrefresh(win_right_sushi);
+                refreshBox();
             }
             std::this_thread::sleep_for(chrono::seconds(2));
             sticks[leftStick].lock();
@@ -201,6 +250,9 @@
                 clearBoxes();
                 printBox(1,1,4,"Left");
                 printBox(1,2,4,"Right");
+                // wrefresh(win_left_sushi);
+                // wrefresh(win_right_sushi);
+                refreshBox();
 
 
             }
@@ -213,7 +265,9 @@
                 lock_guard<mutex> lock(*print_guard);
 
                 clearBoxes();
-                printBox(1,0,5,"Waiting for food");    
+                printBox(1,0,5,"Waiting for food");  
+                // wrefresh(win_sushi);
+                refreshBox();
                 }
                 dish = kitchen.giveDish(2);
 
@@ -225,6 +279,8 @@
 
                 clearBoxes();
                 printBox(1,0,3,"Eating");
+                // wrefresh(win_sushi);
+                refreshBox();
             }
             
             this_thread::sleep_for(chrono::seconds(2)); 
@@ -237,28 +293,57 @@
 
 
     void Philosopher::eat(int firstFork){
-        {
+
+        bool cond = true;
+
+        if(kitchen.compareDishes()){
+        
+            think(0);
+
+            {
+            lock_guard<mutex> lock(*print_guard);
+            clearBoxes();
+            printBox(0,0,1,"Hungry");
+            // wrefresh(win_spaggetti);
+            // wrefresh(win_sushi);
+            refreshBox();
+            }
+            eatSpaggetti(firstFork);
+        }
+        else{
+            think(1);
+            {
             lock_guard<mutex> lock(*print_guard);
             clearBoxes();
             printBox(1,0,1,"Hungry");
+            // wrefresh(win_sushi);
+            // wrefresh(win_spaggetti);
+            refreshBox();
+            }
+            eatSushi(firstFork);
         }
-        eatSushi(firstFork);
+
+        
 
     }
             
             
 
-    void Philosopher::think(int time){
+    void Philosopher::think(int foodType){
         {
             lock_guard<mutex> lock(*print_guard);
             clearBoxes();
             //printBox(0,0,2,"Thinking");
-            printBox(1,0,2,"Thinking");
+            printBox(foodType,0,2,"Thinking");
+            // wrefresh(win_spaggetti);
+            // wrefresh(win_sushi);
+            refreshBox();
+            
             testIterator++;
             
 
         }
-        this_thread::sleep_for(chrono::seconds(time));
+        this_thread::sleep_for(chrono::seconds(2));
     }
 
     void Philosopher::decide(){
@@ -270,7 +355,6 @@
 
     void Philosopher::runPhilosopher(){
         while(true){
-            think(3);
             decide();
 
         }
