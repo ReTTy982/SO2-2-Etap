@@ -8,7 +8,7 @@
 #include <thread>
 #include <mutex>
 #include <ncurses.h>
-
+#include "parameters.hpp"
 
 class Kitchen
 {

@@ -8,8 +8,6 @@
 
 
 using namespace std;
-int PHIL_LEN = 20;
-
 
 int main()
 {   

@@ -3,39 +3,22 @@
 
 
 
-void Kitchen::cookDish(int groupId, int id){
+void Kitchen::cookDish(int groupId, int id){ //1-spaggetti, 2-sushi
 
     if(groupId ==1){
         Dish dish = Dish(id, "spaggetti");
         (*spaggettiVector).push_back(dish);
         {
-                
-
                 printBox();
-                // std::lock_guard<std::mutex> lock(*print_guard);
-                // werase(kitchenWindow);
-
-                // box(kitchenWindow, 0, 0);
-                // mvwprintw(kitchenWindow, 1, 1, "Spaggetti: %ld", (*spaggettiVector).size());
-                // mvwprintw(kitchenWindow, 2, 1, "Sushi: %ld", (*sushiVector).size());
-                // //wbkgd(kitchenWindow, COLOR_PAIR(1));
-                // wrefresh(kitchenWindow);
         }
     } else if(groupId ==2){
         Dish dish = Dish(id, "sushi");
         (*sushiVector).push_back(dish);
 
         {
-                
-                
+            
                 printBox();
-                // std::lock_guard<std::mutex> lock(*print_guard);
-                // werase(kitchenWindow);
-                // box(kitchenWindow, 0, 0);
-                // mvwprintw(kitchenWindow, 1, 1, "Spaggetti: %ld", (*spaggettiVector).size());
-                // mvwprintw(kitchenWindow, 2, 1, "Sushi: %ld", (*sushiVector).size());
-                // //wbkgd(kitchenWindow, COLOR_PAIR(1));
-                // wrefresh(kitchenWindow);
+
         }
     }
 
@@ -73,14 +56,7 @@ Dish Kitchen::giveDish(int id){ //0- nie ma, 1-spaggetti, 2-sushi
     {
                 
                 printBox();
-                // std::lock_guard<std::mutex> lock(*print_guard);
-                // werase(kitchenWindow);
-                
-                // box(kitchenWindow, 0, 0);
-                // mvwprintw(kitchenWindow, 1, 1, "Spaggetti: %ld", (*spaggettiVector).size());
-                // mvwprintw(kitchenWindow, 2, 1, "Sushi: %ld", (*sushiVector).size());
-                // //wbkgd(kitchenWindow, COLOR_PAIR(1));
-                // wrefresh(kitchenWindow);
+              
 
     }
 
@@ -119,27 +95,35 @@ int Kitchen::getSushiGivenCounter(){
 std::thread Kitchen::runKitchen(){
 
     return std::thread(&Kitchen::startCooking, this);
-    //threadObj.detach();
-    
+
 }
 
 void Kitchen::startCooking(){
 
-    int random = 0;
+    int foodId = 0;
+    
 
     while(true){
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(400));
-        if(random%3==0){
-            
-            cookDish(1, random);
-        } else{
-            Dish dish = Dish(random, "sushi");
-            cookDish(2, random);
+        for(int i=0; i<HOW_MANY_SPAGGETTI_IN_CYCLE; i++){
+
+            cookDish(1, foodId);
+            foodId++;
+            std::this_thread::sleep_for(std::chrono::milliseconds(MILISECONDS_TO_COOK_DISH));
         }
-        random++;
+
+
+        for(int i=0; i<HOW_MANY_SUSHI_IN_CYCLE; i++){
+
+            cookDish(2, foodId);
+            foodId++;
+            std::this_thread::sleep_for(std::chrono::milliseconds(MILISECONDS_TO_COOK_DISH));
+        }
+
         expirationOnVectors();
+
     }
+   
 }
 
 void Kitchen::setVectors(std::mutex *kitchenMutex, std::vector<Dish> &spagettiVector, std::vector<Dish> &sushiVector){
@@ -210,9 +194,9 @@ bool Kitchen::compareDishes(){
         return true;
     }
    
-    if((*spaggettiVector).size() + 5 < (*sushiVector).size()){
+    if((*spaggettiVector).size() + VECTOR_OPTIMALIZATION < (*sushiVector).size()){
         return false;
-    } else if((*spaggettiVector).size() + 5 > (*sushiVector).size()){
+    } else if((*spaggettiVector).size() + VECTOR_OPTIMALIZATION > (*sushiVector).size()){
         return true;
     }
 
