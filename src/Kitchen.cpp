@@ -109,6 +109,7 @@ void Kitchen::startCooking(){
 
             cookDish(1, foodId);
             foodId++;
+            expirationOnVectors();
             std::this_thread::sleep_for(std::chrono::milliseconds(MILISECONDS_TO_COOK_DISH));
         }
 
@@ -117,10 +118,10 @@ void Kitchen::startCooking(){
 
             cookDish(2, foodId);
             foodId++;
+            expirationOnVectors();
             std::this_thread::sleep_for(std::chrono::milliseconds(MILISECONDS_TO_COOK_DISH));
         }
 
-        expirationOnVectors();
 
     }
    
